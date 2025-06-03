@@ -1,4 +1,5 @@
 from lexer import lexer
+from yacc import parser
 import sys
 
 file = ""
@@ -12,6 +13,8 @@ with open(file, 'r') as f:
 
 lexer.input(code)
 
+tokens = []
+
 with open('../io/code.tlelgol', 'a') as token_file:
   token_file.truncate(0)
   while True:
@@ -23,5 +26,8 @@ with open('../io/code.tlelgol', 'a') as token_file:
       break
 
     # Write token to file
+    tokens.append(tok)
     token_file.write(f"<{tok.type}, {tok.lineno}, {tok.lexpos}>\n")
     print(f"Token: Tipo='{tok.type}', Valor='{tok.value}', Linha={tok.lineno}, Posição={tok.lexpos}")  # Print the token
+
+parser.parse(code)
