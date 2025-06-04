@@ -30,3 +30,30 @@
    ```bash
    deactivate
    ```
+
+   **Rodar o código**
+
+   ```bash
+   cd src
+   ```
+
+   ```bash
+   python3 .main.py
+   ```
+
+   ou
+
+   ```bash
+   python .main.py
+   ```
+
+   **Atenção**
+
+   o grafo em png não vai funcionar sem a ferramenta graphviz
+   caso esteja no linux instale a mesma via:
+
+```bash
+ sudo apt-get install graphviz
+```
+
+Caso esteja no windows instale o executável e configure a variável de ambiente.

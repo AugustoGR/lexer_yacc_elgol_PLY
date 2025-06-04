@@ -16,10 +16,24 @@ def p_expression_math_binop(p):
 def p_expression_math_operand(p):
     '''expression_math : ID
                        | NUMERO
-                       | function_call'''
+                       | function_call
+                       | ZERO'''
     p[0] = p[1]
 
 # Definição das regras de funções
+
+def p_function_definition(p):
+    '''function_definition : INTEIRO FUNCAO LPAREN parameter_list RPAREN PONTO block'''
+    p[0] = ('function_def', p[7])
+
+def p_function_definitions(p):
+    '''function_definitions : function_definition
+                            | function_definitions function_definition'''
+    if len(p) == 2:
+        p[0] = p[1]
+    else:
+        p[1].append(p[2])
+        p[0] = p[1]
 
 def p_function_call(p):
     '''function_call : FUNCAO LPAREN argument_list RPAREN '''
@@ -41,10 +55,6 @@ def p_argument_list(p):
 def p_empty(p):
     '''empty :'''
     pass
-
-def p_function_definition(p):
-        '''function_definition : INTEIRO FUNCAO LPAREN parameter_list RPAREN PONTO INICIO PONTO statement_list FIM PONTO'''
-        p[0] = ('function_def', p[2], p[4], p[9])
 
 def p_parameter_list(p):
     '''parameter_list : INTEIRO ID
@@ -77,6 +87,9 @@ def p_statement_list(p):
 def p_statement(p):
     '''statement : expression
                  | variable_declaration
+                 | loop
+                 | if_statement
+                 | comp
                  | elgio_assignment'''
     p[0] = p[1]
 
@@ -101,40 +114,76 @@ def p_elgio_expression(p):
     else:
         p[0] = (p[2], p[1], p[3])
 
-# Definição das regras de laços e condicionais
+# Definição das regras de laços, condicionais e bloco principal
 
 def p_conditional_expression(p):
     '''conditional_expression : ID MAIOR ID
-                              | ID MENOR ID
-                              | ID IGUAL ID
-                              | ID DIFERENTE ID
-                              | ID MAIOR NUMERO
-                              | ID MENOR NUMERO
-                              | ID IGUAL NUMERO
-                              | ID DIFERENTE NUMERO
-                              | NUMERO MAIOR ID
-                              | NUMERO MENOR ID
-                              | NUMERO IGUAL ID
-                              | NUMERO DIFERENTE ID'''
+                                | ID MENOR ID
+                                | ID IGUAL ID
+                                | ID DIFERENTE ID
+                                | ID MAIOR NUMERO
+                                | ID MENOR NUMERO
+                                | ID IGUAL NUMERO
+                                | ID DIFERENTE NUMERO
+                                | NUMERO MAIOR ID
+                                | NUMERO MENOR ID
+                                | NUMERO IGUAL ID
+                                | NUMERO DIFERENTE ID
+                                | ID MAIOR ZERO
+                                | ID MENOR ZERO
+                                | ID IGUAL ZERO
+                                | ID DIFERENTE ZERO
+                                | ZERO MAIOR ID
+                                | ZERO MENOR ID
+                                | ZERO IGUAL ID
+                                | ZERO DIFERENTE ID
+                                | NUMERO MAIOR ZERO
+                                | NUMERO MENOR ZERO
+                                | NUMERO IGUAL ZERO
+                                | NUMERO DIFERENTE ZERO
+                                | ZERO MAIOR NUMERO
+                                | ZERO MENOR NUMERO
+                                | ZERO IGUAL NUMERO
+                                | ZERO DIFERENTE NUMERO
+                                | ZERO MAIOR ZERO'''
     p[0] = ('conditional', p[1], p[2], p[3])
 
 def p_loop(p):
-    '''loop : ENQUANTO conditional_expression INICIO statement_list FIM PONTO'''
+    '''loop : ENQUANTO conditional_expression block'''
     p[0] = ('loop', p[2], p[4])
 
 def p_if_statement(p):
-    '''if_statement : SE conditional_expression ENTAO statement_list SENAO statement_list FIM PONTO
-                    | SE conditional_expression ENTAO statement_list FIM PONTO'''
+    '''if_statement : SE conditional_expression PONTO ENTAO PONTO block SENAO block
+                    | SE conditional_expression PONTO ENTAO PONTO block'''
     if len(p) == 9:  # with SENAO
         p[0] = ('if', p[2], p[4], p[6])
     else:  # without SENAO
         p[0] = ('if', p[2], p[4], None)
 
+def p_comp(p):
+    '''comp : COMP  expression_math PONTO'''
+    p[0] = ('comp', p[2])
+
+def p_program(p):
+    '''program : block
+               | function_definitions block'''
+    if len(p) == 2:
+        p[0] = ('program', p[1])
+    else:
+        p[0] = ('program', p[1], p[2])
+
+def p_block(p):
+    '''block : INICIO PONTO statement_list FIM PONTO'''
+    p[0] = ('block', p[3])
+
 def p_error(p):
     if p:
-        print(f"Erro sintático na linha {p.lineno}")
+        if p.type == 'error':
+            print(f"Erro léxico na linha {p.lineno}")
+        else:
+            print(f"Erro sintático na linha {p.lineno}")
     else:
         print("Erro sintático: fim de arquivo inesperado")
-
-parser = yacc.yacc(outputdir='./../io')
+    
+parser = yacc.yacc(start='program', outputdir='../io')
 

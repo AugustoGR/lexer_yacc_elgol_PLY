@@ -1,5 +1,7 @@
+# LEIA O README.md ANTES DE TENTAR EXECUTAR ESTE ARQUIVO
 from lexer import lexer
 from yacc import parser
+from ast_visualizer import visualize_ast
 import sys
 
 file = ""
@@ -28,6 +30,7 @@ with open('../io/code.tlelgol', 'a') as token_file:
     # Write token to file
     tokens.append(tok)
     token_file.write(f"<{tok.type}, {tok.lineno}, {tok.lexpos}>\n")
-    print(f"Token: Tipo='{tok.type}', Valor='{tok.value}', Linha={tok.lineno}, Posição={tok.lexpos}")  # Print the token
 
-parser.parse(code)
+result = parser.parse(code, lexer=lexer)
+print("Parsing result:", result)
+visualize_ast(result, filename='../io/ast')
