@@ -1,6 +1,7 @@
 # Links relacionados
 
 Artigo: https://docs.google.com/document/d/1AMLP_11kbz4_WVxqP3nd4V2oyD-q2jYHjsdMTIBzVtA/edit?usp=sharing
+
 Apresentação: https://docs.google.com/presentation/d/1u5A9uAXuIcguYuip9pulekgl8Bu9_RGSBjOcbLXoqc0/edit?usp=sharing
 
 # Setup para rodar
