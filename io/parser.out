@@ -71,7 +71,7 @@ Rule 65    conditional_expression -> ZERO IGUAL NUMERO
 Rule 66    conditional_expression -> ZERO DIFERENTE NUMERO
 Rule 67    conditional_expression -> ZERO MAIOR ZERO
 Rule 68    loop -> ENQUANTO conditional_expression block
-Rule 69    if_statement -> SE conditional_expression PONTO ENTAO PONTO block SENAO block
+Rule 69    if_statement -> SE conditional_expression PONTO ENTAO PONTO block SENAO PONTO block
 Rule 70    if_statement -> SE conditional_expression PONTO ENTAO PONTO block
 Rule 71    comp -> COMP expression_math PONTO
 Rule 72    program -> block
@@ -99,7 +99,7 @@ MAIS                 : 2 32
 MENOR                : 40 44 48 52 56 60 64
 MENOS                : 3 33
 NUMERO               : 7 37 43 44 45 46 47 48 49 50 59 60 61 62 63 64 65 66
-PONTO                : 1 10 30 31 69 69 70 70 71 74 74
+PONTO                : 1 10 30 31 69 69 69 70 70 71 74 74
 RPAREN               : 10 13
 SE                   : 69 70
 SENAO                : 69
@@ -229,7 +229,7 @@ state 9
     (1) expression -> . ID IGUALATRIBUTO expression_math PONTO
     (30) variable_declaration -> . INTEIRO ID PONTO
     (68) loop -> . ENQUANTO conditional_expression block
-    (69) if_statement -> . SE conditional_expression PONTO ENTAO PONTO block SENAO block
+    (69) if_statement -> . SE conditional_expression PONTO ENTAO PONTO block SENAO PONTO block
     (70) if_statement -> . SE conditional_expression PONTO ENTAO PONTO block
     (71) comp -> . COMP expression_math PONTO
     (31) elgio_assignment -> . ELGIO IGUALATRIBUTO elgio_expression PONTO
@@ -285,7 +285,7 @@ state 11
     (1) expression -> . ID IGUALATRIBUTO expression_math PONTO
     (30) variable_declaration -> . INTEIRO ID PONTO
     (68) loop -> . ENQUANTO conditional_expression block
-    (69) if_statement -> . SE conditional_expression PONTO ENTAO PONTO block SENAO block
+    (69) if_statement -> . SE conditional_expression PONTO ENTAO PONTO block SENAO PONTO block
     (70) if_statement -> . SE conditional_expression PONTO ENTAO PONTO block
     (71) comp -> . COMP expression_math PONTO
     (31) elgio_assignment -> . ELGIO IGUALATRIBUTO elgio_expression PONTO
@@ -465,7 +465,7 @@ state 22
 
 state 23
 
-    (69) if_statement -> SE . conditional_expression PONTO ENTAO PONTO block SENAO block
+    (69) if_statement -> SE . conditional_expression PONTO ENTAO PONTO block SENAO PONTO block
     (70) if_statement -> SE . conditional_expression PONTO ENTAO PONTO block
     (39) conditional_expression -> . ID MAIOR ID
     (40) conditional_expression -> . ID MENOR ID
@@ -661,7 +661,7 @@ state 34
 
 state 35
 
-    (69) if_statement -> SE conditional_expression . PONTO ENTAO PONTO block SENAO block
+    (69) if_statement -> SE conditional_expression . PONTO ENTAO PONTO block SENAO PONTO block
     (70) if_statement -> SE conditional_expression . PONTO ENTAO PONTO block
 
     PONTO           shift and go to state 62
@@ -959,7 +959,7 @@ state 61
 
 state 62
 
-    (69) if_statement -> SE conditional_expression PONTO . ENTAO PONTO block SENAO block
+    (69) if_statement -> SE conditional_expression PONTO . ENTAO PONTO block SENAO PONTO block
     (70) if_statement -> SE conditional_expression PONTO . ENTAO PONTO block
 
     ENTAO           shift and go to state 106
@@ -1408,7 +1408,7 @@ state 105
 
 state 106
 
-    (69) if_statement -> SE conditional_expression PONTO ENTAO . PONTO block SENAO block
+    (69) if_statement -> SE conditional_expression PONTO ENTAO . PONTO block SENAO PONTO block
     (70) if_statement -> SE conditional_expression PONTO ENTAO . PONTO block
 
     PONTO           shift and go to state 121
@@ -1650,7 +1650,7 @@ state 120
 
 state 121
 
-    (69) if_statement -> SE conditional_expression PONTO ENTAO PONTO . block SENAO block
+    (69) if_statement -> SE conditional_expression PONTO ENTAO PONTO . block SENAO PONTO block
     (70) if_statement -> SE conditional_expression PONTO ENTAO PONTO . block
     (74) block -> . INICIO PONTO statement_list FIM PONTO
 
@@ -1806,7 +1806,7 @@ state 129
 
 state 130
 
-    (69) if_statement -> SE conditional_expression PONTO ENTAO PONTO block . SENAO block
+    (69) if_statement -> SE conditional_expression PONTO ENTAO PONTO block . SENAO PONTO block
     (70) if_statement -> SE conditional_expression PONTO ENTAO PONTO block .
 
     SENAO           shift and go to state 132
@@ -1837,24 +1837,31 @@ state 131
 
 state 132
 
-    (69) if_statement -> SE conditional_expression PONTO ENTAO PONTO block SENAO . block
+    (69) if_statement -> SE conditional_expression PONTO ENTAO PONTO block SENAO . PONTO block
+
+    PONTO           shift and go to state 133
+
+
+state 133
+
+    (69) if_statement -> SE conditional_expression PONTO ENTAO PONTO block SENAO PONTO . block
     (74) block -> . INICIO PONTO statement_list FIM PONTO
 
     INICIO          shift and go to state 4
 
-    block                          shift and go to state 133
+    block                          shift and go to state 134
 
-state 133
+state 134
 
-    (69) if_statement -> SE conditional_expression PONTO ENTAO PONTO block SENAO block .
+    (69) if_statement -> SE conditional_expression PONTO ENTAO PONTO block SENAO PONTO block .
 
-    FIM             reduce using rule 69 (if_statement -> SE conditional_expression PONTO ENTAO PONTO block SENAO block .)
-    ID              reduce using rule 69 (if_statement -> SE conditional_expression PONTO ENTAO PONTO block SENAO block .)
-    INTEIRO         reduce using rule 69 (if_statement -> SE conditional_expression PONTO ENTAO PONTO block SENAO block .)
-    ENQUANTO        reduce using rule 69 (if_statement -> SE conditional_expression PONTO ENTAO PONTO block SENAO block .)
-    SE              reduce using rule 69 (if_statement -> SE conditional_expression PONTO ENTAO PONTO block SENAO block .)
-    COMP            reduce using rule 69 (if_statement -> SE conditional_expression PONTO ENTAO PONTO block SENAO block .)
-    ELGIO           reduce using rule 69 (if_statement -> SE conditional_expression PONTO ENTAO PONTO block SENAO block .)
+    FIM             reduce using rule 69 (if_statement -> SE conditional_expression PONTO ENTAO PONTO block SENAO PONTO block .)
+    ID              reduce using rule 69 (if_statement -> SE conditional_expression PONTO ENTAO PONTO block SENAO PONTO block .)
+    INTEIRO         reduce using rule 69 (if_statement -> SE conditional_expression PONTO ENTAO PONTO block SENAO PONTO block .)
+    ENQUANTO        reduce using rule 69 (if_statement -> SE conditional_expression PONTO ENTAO PONTO block SENAO PONTO block .)
+    SE              reduce using rule 69 (if_statement -> SE conditional_expression PONTO ENTAO PONTO block SENAO PONTO block .)
+    COMP            reduce using rule 69 (if_statement -> SE conditional_expression PONTO ENTAO PONTO block SENAO PONTO block .)
+    ELGIO           reduce using rule 69 (if_statement -> SE conditional_expression PONTO ENTAO PONTO block SENAO PONTO block .)
 
 WARNING: 
 WARNING: Conflicts:

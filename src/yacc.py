@@ -153,12 +153,12 @@ def p_loop(p):
     p[0] = ('loop', p[2], p[4])
 
 def p_if_statement(p):
-    '''if_statement : SE conditional_expression PONTO ENTAO PONTO block SENAO block
+    '''if_statement : SE conditional_expression PONTO ENTAO PONTO block SENAO PONTO block
                     | SE conditional_expression PONTO ENTAO PONTO block'''
     if len(p) == 9:  # with SENAO
-        p[0] = ('if', p[2], p[4], p[6])
+        p[0] = ('if', p[2], p[6], p[8])
     else:  # without SENAO
-        p[0] = ('if', p[2], p[4], None)
+        p[0] = ('if', p[2], p[6], None)
 
 def p_comp(p):
     '''comp : COMP  expression_math PONTO'''
@@ -178,10 +178,10 @@ def p_block(p):
 
 def p_error(p):
     if p:
-        if p.type == 'error':
-            print(f"Erro léxico na linha {p.lineno}")
+        if hasattr(p, 'lineno') and p.lineno:
+            print(f"Erro sintático na linha {p.lineno}: token inesperado '{p.value}'")
         else:
-            print(f"Erro sintático na linha {p.lineno}")
+            print(f"Erro sintático: token inesperado '{p.value}'")
     else:
         print("Erro sintático: fim de arquivo inesperado")
     
