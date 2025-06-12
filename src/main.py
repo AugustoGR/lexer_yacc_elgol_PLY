@@ -29,6 +29,9 @@ with open('../io/code.tlelgol', 'a') as token_file:
 
     tokens.append(tok)
 
+    token_file.write(f"<{tok.type}, {tok.lineno}, {tok.lexpos}>\n")
+
+
 lexer.lineno = 1
 lexer.lexpos = 0
 
